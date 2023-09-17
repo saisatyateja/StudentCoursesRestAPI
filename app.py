@@ -52,7 +52,7 @@ class Initialize(Resource):
             return jsonify({"error": e}), 500
 
 
-@ns.route("/course", methods= ['GET','PUT'])
+@ns.route("/course")
 @api.doc()
 class Courses(Resource):
     """
@@ -79,6 +79,24 @@ class Courses(Resource):
         db.session.add(course)
         db.session.commit()
         return course
+    
+    @ns.route("/findByName/<string:name>")
+    @api.doc()
+    class FindCourseByName(Resource):
+        """
+        Find Course by Name Resource
+        """
+
+        @ns.doc('find course by name')
+        @ns.marshal_list_with(course_model)
+        @ns.response(200, description="success", model=course_model)
+        @ns.response(404, 'Course not found')
+        def get(self, name):
+            courses = Course.query.filter_by(name=name).all()
+            if not courses:
+                return 'Course not found', 404
+            return courses
+
 
 
 @app.route('/')
