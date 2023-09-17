@@ -29,6 +29,17 @@ services:
       - type: volume
         source: students-db
         target: /var/lib/mysql
+  ang-srv:
+    image: saisatyateja/studentcourseangular:1.0
+    networks:
+      - students-net
+    ports:
+      - target: 4200
+        published: 4200
+        protocol: tcp
+        mode: host
+    depends_on:
+      - students-srv
 
 volumes:
   students-db:
