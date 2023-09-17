@@ -4,8 +4,12 @@ import logging
 from flask_restplus import Api, Resource, fields, reqparse
 from models import db, Course
 import utils
+from  flask_cors import CORS
+
+
 
 app = Flask(__name__)
+CORS(app, origins="*")
 logging.basicConfig(level=logging.DEBUG)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 DATABASE_URI = "mysql+pymysql://{}:{}@{}/{}".format(
