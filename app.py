@@ -52,7 +52,7 @@ class Initialize(Resource):
             return jsonify({"error": e}), 500
 
 
-@ns.route("/course")
+@ns.route("/course", methods= ['GET','PUT'])
 @api.doc()
 class Courses(Resource):
     """
