@@ -31,6 +31,8 @@ services:
         target: /var/lib/mysql
   ang-srv:
     image: saisatyateja/studentcourseangular:1.0
+    environment:
+      ENDPOINT_URL: http://student-srv:8080/course
     networks:
       - students-net
     ports:
