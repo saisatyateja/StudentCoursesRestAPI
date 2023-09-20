@@ -30,9 +30,9 @@ services:
         source: students-db
         target: /var/lib/mysql
   ang-srv:
-    image: saisatyateja/studentcourseangular:1.2
+    image: saisatyateja/studentcourseangular:1.3
     environment:
-      ENDPOINT_URL: http://studentcoursesrestapi-student-srv-1:8080/course
+      ENDPOINT_URL: http://student-srv:8080/course
     networks:
       - students-net
     ports:
