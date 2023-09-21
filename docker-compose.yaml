@@ -1,4 +1,3 @@
----
 version: "3.9"
 services:
   student-srv:
@@ -6,12 +5,8 @@ services:
       context: .
     networks:
       - students-net
-      - students-private-net
     ports:
-      - target: 8080
-        published: 8080
-        protocol: tcp
-        # mode: host
+      - "8080:8080" # Map container port 8080 to host port 8080
     environment:
       - MYSQL_SERVER=students-db
     depends_on:
@@ -19,7 +14,7 @@ services:
   students-db:
     image: mysql:5.6
     networks:
-      - students-private-net
+      - students-net
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=test
@@ -30,16 +25,13 @@ services:
         source: students-db
         target: /var/lib/mysql
   ang-srv:
-    image: saisatyateja/studentcourseangular:1.3
+    image: saisatyateja/studentcourseangular:1.4
     environment:
-      ENDPOINT_URL: http://student-srv:8080/course
+      ENDPOINT_URL: http://student-srv:8080/course # This URL should work within the Docker network
     networks:
-      - students-net
+      - students-net # Connect to the same network
     ports:
-      - target: 4200
-        published: 4200
-        protocol: tcp
-       gi
+      - "4200:4200" # Map container port 4200 to host port 4200
     depends_on:
       - student-srv
 
@@ -52,9 +44,3 @@ networks:
     ipam:
       config:
         - subnet: 192.168.101.0/24
-  students-private-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.102.0/24
-        
